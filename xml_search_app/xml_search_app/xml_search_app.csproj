@@ -55,14 +55,14 @@
     </ApplicationDefinition>
     <Compile Include="Libs\IXmlParser.cs" />
     <Compile Include="Libs\ObserverPattern.cs" />
-    <Compile Include="Libs\XmlParserFactory.cs" />
+    <Compile Include="XmlParsers\XmlParserContext.cs" />
     <Compile Include="Models\AddressBookListItem.cs" />
     <Compile Include="Models\BookItem.cs" />
     <Compile Include="Models\Address.cs" />
-    <Compile Include="Models\DomXmlParser.cs" />
-    <Compile Include="Models\LinqToXmlParser.cs" />
+    <Compile Include="XmlParsers\DomXmlParser.cs" />
+    <Compile Include="XmlParsers\LinqToXmlParser.cs" />
     <Compile Include="Models\Name.cs" />
-    <Compile Include="Models\SaxXmlParser.cs" />
+    <Compile Include="XmlParsers\SaxXmlParser.cs" />
     <Compile Include="Views\MainView.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

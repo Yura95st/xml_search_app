@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using xml_search_app.Libs.ObserverPattern;
-using xml_search_app.Libs;
+using xml_search_app.XmlParsers;
 
 namespace xml_search_app.Models
 {
@@ -59,9 +59,10 @@ namespace xml_search_app.Models
         {
             try
             {
-                IXmlParser parser = XmlParserFactory.GetParser(parserName);
-                parser.SetResourseFile(_resourceFile);
-                ItemsList = parser.ParseFile();
+                XmlParserContext parserContext = new XmlParserContext();
+                parserContext.SetParser(parserName);
+                parserContext.SetResourseFile(_resourceFile);
+                ItemsList = parserContext.ParseFile();
             }
             catch (Exception e)
             {
