@@ -5,6 +5,14 @@
         public Address()
         { }
 
+        public Address(string city, string street, string house, int apartment)
+        {
+            City = city;
+            Street = street;
+            House = house;
+            Apartment = apartment;
+        }
+
         public string City
         {
             get;

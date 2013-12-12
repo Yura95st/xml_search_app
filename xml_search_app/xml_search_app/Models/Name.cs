@@ -1,12 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace xml_search_app.Models
+﻿namespace xml_search_app.Models
 {
     public class Name
     {
+        public Name()
+        { }
+
+        public Name(string firstName, string lastName, string middleName)
+        {
+            FirstName = firstName;
+            LastName = lastName;
+            MiddleName = middleName;
+        }
+
         public string FirstName
         {
             get;
