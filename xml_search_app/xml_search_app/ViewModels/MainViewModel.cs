@@ -9,16 +9,16 @@ namespace xml_search_app.ViewModels
 {
     public class MainViewModel : INotifyPropertyChanged
     {
-        private string[] _processorTypeArray = {"SAX", "DOM", "LinqToXml"};
-
         private MainModel _model = new MainModel();
         private string _inputQuery;
-        private int _searchByType = 0;
         private int _processorType = 0;
+        private int _searchType = 0;
 
         public MainViewModel()
         {
-            _model.ResourceFile = @"resources\source_file.xml";
+            _model.ResourceFile = ProgramValues.RESOURCE_FILE;
+            ProcessorType = 0;
+            SearchType = 0;
         }
 
         public string InputQuery
@@ -41,7 +41,7 @@ namespace xml_search_app.ViewModels
             {
                 try
                 {
-                    _model.ParseFile(_processorTypeArray[_processorType]);
+                    _model.Search(_inputQuery.Trim());
                 }
                 catch (Exception e)
                 { }
@@ -66,15 +66,16 @@ namespace xml_search_app.ViewModels
             }
         }
 
-        public int SearchByType
+        public int SearchType
         {
             get
             {
-                return _searchByType;
+                return _searchType;
             }
             set
             {
-                _searchByType = value;
+                _searchType = value;
+                _model.SearchType = _searchType;
                 RaisePropertyChanged("SearchByType");
                 RaisePropertyChanged("BookItemList");
             }
@@ -89,6 +90,7 @@ namespace xml_search_app.ViewModels
             set
             {
                 _processorType = value;
+                _model.ParserId = _processorType;
                 RaisePropertyChanged("ProcessorType");
                 RaisePropertyChanged("BookItemList");
             }

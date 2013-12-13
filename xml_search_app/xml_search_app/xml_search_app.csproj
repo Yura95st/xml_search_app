@@ -54,6 +54,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Libs\IXmlParser.cs" />
+    <Compile Include="Models\ProgramValues.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="XmlParsers\XmlParserContext.cs" />
     <Compile Include="Models\AddressBookListItem.cs" />

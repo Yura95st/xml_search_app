@@ -8,8 +8,8 @@ namespace xml_search_app.Libs
     {
         void SetResourseFile(string file);
 
-        List<BookItem> ParseFile();
+        List<BookItem> SearchInFile(string query);
 
-        List<BookItem> SearchInFile(string query, int type);
+        void SetSearchType(int type);
     }
 }

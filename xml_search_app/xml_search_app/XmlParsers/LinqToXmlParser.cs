@@ -11,6 +11,7 @@ namespace xml_search_app.XmlParsers
     class LinqToXmlParser : IXmlParser
     {
         private string _file = "";
+        private int _searchType = 0; //search by: 0 - address, 1 - city, 2 - last name, 3 - phone number
 
         public LinqToXmlParser()
         { }
@@ -20,7 +21,12 @@ namespace xml_search_app.XmlParsers
             _file = file;
         }
 
-        public List<BookItem> ParseFile()
+        public void SetSearchType(int type)
+        {
+            _searchType = type;
+        }
+
+        public List<BookItem> SearchInFile(string query)
         {
             XDocument xdoc = XDocument.Load(_file);
             List<BookItem> bookItemList = new List<BookItem>();
@@ -40,6 +46,27 @@ namespace xml_search_app.XmlParsers
                                  PhoneNumber = item.Element("phone_number").Value,
                              };
 
+                switch (_searchType)
+                {
+                    case 0:
+                        items = items.Where(x =>
+                            (x.House + " " + x.Street + ", " + x.Apartment).IndexOf(query, StringComparison.OrdinalIgnoreCase) >= 0);
+                        break;
+
+                    case 1:
+                        items = items.Where(x => x.City.IndexOf(query, StringComparison.OrdinalIgnoreCase) >= 0);
+                        break;
+
+                    case 2:
+                        items = items.Where(x => 
+                            x.LastName.IndexOf(query, StringComparison.OrdinalIgnoreCase) >= 0);
+                        break;
+
+                    case 3:
+                        items = items.Where(x => x.PhoneNumber.IndexOf(query, StringComparison.OrdinalIgnoreCase) >= 0);
+                        break;
+                }
+
                 Address address;
                 Name name;
                 foreach (var item in items)
@@ -56,11 +83,6 @@ namespace xml_search_app.XmlParsers
             }
 
             return bookItemList;
-        }
-
-        public List<BookItem> SearchInFile(string query, int type)
-        {
-            throw new NotImplementedException();
         }
     }
 }

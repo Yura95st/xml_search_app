@@ -11,6 +11,7 @@ namespace xml_search_app.XmlParsers
     class SaxXmlParser : IXmlParser
     {
         private string _file = "";
+        private int _searchType = 0; //search by: 0 - address, 1 - city, 2 - last name, 3 - phone number
 
         public SaxXmlParser()
         { }
@@ -20,7 +21,12 @@ namespace xml_search_app.XmlParsers
             _file = file;
         }
 
-        public List<BookItem> ParseFile()
+        public void SetSearchType(int type)
+        {
+            _searchType = type;
+        }
+
+        public List<BookItem> SearchInFile(string query)
         {
             XmlReader xmlReader;
             try
@@ -40,7 +46,12 @@ namespace xml_search_app.XmlParsers
                 {
                     if (xmlReader.Name.Equals("item") && xmlReader.NodeType == XmlNodeType.Element)
                     {
-                        bookItemList.Add(ParseItemNode(xmlReader.ReadSubtree()));
+                        BookItem bookItem = ParseItemNode(xmlReader.ReadSubtree());
+
+                        if (SearchResultContainsItem(bookItem, query))
+                        {
+                            bookItemList.Add(bookItem);
+                        }
                     }
                 }
             }
@@ -54,6 +65,28 @@ namespace xml_search_app.XmlParsers
             }
 
             return bookItemList;
+        }
+
+        private bool SearchResultContainsItem(BookItem bookItem, string query)
+        {
+            switch (_searchType)
+            {
+                case 0:
+                    return ((bookItem.Address.House + " " + bookItem.Address.Street + ", " + bookItem.Address.Apartment)
+                        .IndexOf(query, StringComparison.OrdinalIgnoreCase) >= 0);
+
+                case 1:
+                    return (bookItem.Address.City.IndexOf(query, StringComparison.OrdinalIgnoreCase) >= 0);
+
+                case 2:
+                    return (bookItem.Name.LastName.IndexOf(query, StringComparison.OrdinalIgnoreCase) >= 0);
+
+                case 3:
+                    return (Convert.ToString(bookItem.PhoneNumber).IndexOf(query, StringComparison.OrdinalIgnoreCase) >= 0);
+
+                default:
+                    return true;
+            }
         }
 
         private BookItem ParseItemNode(XmlReader xmlReader)
@@ -154,11 +187,6 @@ namespace xml_search_app.XmlParsers
             }
 
             return name;
-        }
-
-        public List<BookItem> SearchInFile(string query, int type)
-        {
-            throw new NotImplementedException();
         }
     }
 }

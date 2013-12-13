@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using xml_search_app.Models;
 using xml_search_app.Libs;
@@ -12,23 +13,24 @@ namespace xml_search_app.XmlParsers
         public XmlParserContext()
         { }
 
-        public void SetParser(string name)
+        //parserId: 0 - Sax, 1 - Dom, 2 - LinqToXml
+        public void SetParser(int parserId)
         {
-            switch (name)
+            switch (parserId)
             {
-                case "DOM":
-                    {
-                        parser = new DomXmlParser();
-                    }
-                    break;
-
-                case "SAX":
+                case 0:
                     {
                         parser = new SaxXmlParser();
                     }
                     break;
 
-                case "LinqToXml":
+                case 1:
+                    {
+                        parser = new DomXmlParser();
+                    }
+                    break;
+
+                case 2:
                     {
                         parser = new LinqToXmlParser();
                     }
@@ -44,14 +46,14 @@ namespace xml_search_app.XmlParsers
             parser.SetResourseFile(file);
         }
 
-        public System.Collections.Generic.List<BookItem> ParseFile()
+        public List<BookItem> SearchInFile(string query)
         {
-            return parser.ParseFile();
+            return parser.SearchInFile(query);
         }
 
-        public System.Collections.Generic.List<BookItem> SearchInFile(string query, int type)
+        public void SetSearchType(int type)
         {
-            return parser.SearchInFile(query, type);
+            parser.SetSearchType(type);
         }
     }
 }
