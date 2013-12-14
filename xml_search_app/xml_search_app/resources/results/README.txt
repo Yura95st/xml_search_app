@@ -1,0 +1,1 @@
+"resources" directory must be located in the same directory as the .exe file
