@@ -1,10 +1,10 @@
 ﻿<Window x:Class="xml_search_app.Views.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:my="clr-namespace:xml_search_app.ViewModels"
+        xmlns:local="clr-namespace:xml_search_app.ViewModels"
         Title="Xml search" Height="350" Width="525" WindowStartupLocation="CenterScreen">
     <Window.DataContext>
-        <my:MainViewModel/>
+        <local:MainViewModel/>
     </Window.DataContext>
     
     <StackPanel Margin="10">
@@ -27,7 +27,7 @@
                 <ComboBoxItem>LINQ to XML</ComboBoxItem>
             </ComboBox>
         </StackPanel>
-        <ListView x:Name="resultsListView" Height="165" ItemsSource="{Binding BookItemList}">
+        <ListView x:Name="resultsListView" Height="165" ItemsSource="{Binding BookItemList, UpdateSourceTrigger=PropertyChanged}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Phone number" DisplayMemberBinding="{Binding PhoneNumber}"/>
@@ -36,6 +36,19 @@
                     <GridViewColumn Header="Address" DisplayMemberBinding="{Binding Address}"/>
                 </GridView>
             </ListView.View>
+            <ListView.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Copy"
+                              Command="{Binding CopyToClipboardCommand}"
+                              CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" />
+                    <Separator />
+                    <MenuItem Header="Export results to:">
+                        <MenuItem Header="Export to Txt" Command="{Binding ExportCommand}" CommandParameter="0"/>
+                        <MenuItem Header="Export to Xml" Command="{Binding ExportCommand}" CommandParameter="1"/>
+                        <MenuItem Header="Export to Html" Command="{Binding ExportCommand}" CommandParameter="2"/>
+                    </MenuItem>
+                </ContextMenu>
+            </ListView.ContextMenu>
         </ListView>
     </StackPanel>
 </Window>

@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 
 using xml_search_app.Models;
-using xml_search_app.Libs;
 
 namespace xml_search_app.XmlParsers
 {
-    public class XmlParserContext : IXmlParser
+    public class XmlParserContext
     {
-        private IXmlParser parser;
+        private string _resourceFile = "";
+        private IXmlParser _parser;
 
         public XmlParserContext()
-        { }
+        {
+        }
 
         //parserId: 0 - Sax, 1 - Dom, 2 - LinqToXml
         public void SetParser(int parserId)
@@ -20,40 +22,48 @@ namespace xml_search_app.XmlParsers
             {
                 case 0:
                     {
-                        parser = new SaxXmlParser();
+                        _parser = new SaxXmlParser();
                     }
                     break;
 
                 case 1:
                     {
-                        parser = new DomXmlParser();
+                        _parser = new DomXmlParser();
                     }
                     break;
 
                 case 2:
                     {
-                        parser = new LinqToXmlParser();
+                        _parser = new LinqToXmlParser();
                     }
                     break;
 
                 default:
                     throw new Exception("Unknown parser's name");
             }
+
+            if (_parser != null)
+            {
+                _parser.SetResourseFile(_resourceFile);
+            }
         }
 
-        public void SetResourseFile(string file)
+        public string ResourseFile
         {
-            parser.SetResourseFile(file);
+            set
+            {
+                _resourceFile = value;
+            }
         }
 
         public List<BookItem> SearchInFile(string query)
         {
-            return parser.SearchInFile(query);
+            return _parser.SearchInFile(query);
         }
 
         public void SetSearchType(int type)
         {
-            parser.SetSearchType(type);
+            _parser.SetSearchType(type);
         }
     }
 }
