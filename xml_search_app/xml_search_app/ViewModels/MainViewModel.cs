@@ -19,7 +19,7 @@ namespace xml_search_app.ViewModels
 
         private ICommand _exportCommand;
         private ICommand _copyToClipboardCommand;
-        private bool _isListEmpty;        
+        private bool _isNotListEmpty;        
 
         public MainViewModel()
         {
@@ -101,17 +101,17 @@ namespace xml_search_app.ViewModels
             }
         }
                
-        public bool IsListEmpty
+        public bool IsNotListEmpty
         {
             get
             {
-                return _isListEmpty;
+                return _isNotListEmpty;
             }
             set
             {
-                if (value != _isListEmpty)
+                if (value != _isNotListEmpty)
                 {
-                    _isListEmpty = value;
+                    _isNotListEmpty = value;
                     RaisePropertyChanged("IsListEmpty");
                 }
             }
@@ -124,7 +124,7 @@ namespace xml_search_app.ViewModels
                 if (_exportCommand == null)
                 {
                     _exportCommand = new RelayCommand(new Action<object>(Export),
-                        param => IsListEmpty);
+                        param => IsNotListEmpty);
                 }
 
                 return _exportCommand;
@@ -138,7 +138,7 @@ namespace xml_search_app.ViewModels
                 if (_copyToClipboardCommand == null)
                 {
                     _copyToClipboardCommand = new RelayCommand(new Action<object>(CopyToClipboard),
-                        param => IsListEmpty);
+                        param => IsNotListEmpty);
                 }
 
                 return _copyToClipboardCommand;
@@ -176,7 +176,7 @@ namespace xml_search_app.ViewModels
                 adressBookList.Add(item);
             }
 
-            IsListEmpty = (adressBookList.Count > 0);
+            IsNotListEmpty = (adressBookList.Count > 0);
 
             return adressBookList;
         }
