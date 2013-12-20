@@ -3,10 +3,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:xml_search_app.ViewModels"
         Title="Xml search" Height="350" Width="525" WindowStartupLocation="CenterScreen">
-    <Window.DataContext>
-        <local:MainViewModel/>
-    </Window.DataContext>
-    <Grid Margin="10">
+    <Window.Resources>
+        <local:MainViewModel x:Key="mainViewModel"/>
+    </Window.Resources>
+
+    <Grid Margin="10" DataContext="{StaticResource mainViewModel}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
